@@ -244,9 +244,25 @@
               }
             },
             {
+              "Name": "humidityDec",
+              "Description": "...",
+              "DisplayName": "HumidityDec",
+              "Type": {
+                "Name": "int"
+              }
+            },
+            {
               "Name": "temperature",
               "Description": "...",
               "DisplayName": "Temperature",
+              "Type": {
+                "Name": "int"
+              }
+            },
+            {
+              "Name": "temperatureDec",
+              "Description": "...",
+              "DisplayName": "TemperatureDec",
               "Type": {
                 "Name": "int"
               }
