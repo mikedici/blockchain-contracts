@@ -178,7 +178,7 @@
         },
         {
           "Name": "SensorLatitudeDec",
-          "DisplayName": "Sensor Latitude Reading",
+          "DisplayName": "Sensor LatitudeDec Reading",
           "Description": "Latitude Decimal",
           "Type": {
             "Name": "int"
@@ -194,7 +194,7 @@
         },
         {
           "Name": "SensorLongitudeDec",
-          "DisplayName": "Sensor Longitude Reading",
+          "DisplayName": "Sensor LongitudeDec Reading",
           "Description": "Longitude Decimal",
           "Type": {
             "Name": "int"
@@ -326,7 +326,7 @@
             {
               "Name": "latitudeDec",
               "Description": "...",
-              "DisplayName": "Latitude",
+              "DisplayName": "LatitudeDec",
               "Type": {
                 "Name": "int"
               }
@@ -342,7 +342,7 @@
         {
               "Name": "longitudeDec",
               "Description": "...",
-              "DisplayName": "Longitude",
+              "DisplayName": "LongitudeDec",
               "Type": {
                 "Name": "int"
               }
