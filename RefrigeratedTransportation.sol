@@ -21,6 +21,7 @@ contract RefrigeratedTransportation  {
     int public  MaxTemperature;
     SensorType public  ComplianceSensorType;
     int public  ComplianceSensorReading;
+    int public  ComplianceSensorReadingDec;
     bool public  ComplianceStatus;
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
@@ -29,6 +30,7 @@ contract RefrigeratedTransportation  {
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
+        ComplianceSensorReadingDec = -1;
         InitiatingCounterparty = msg.sender;
         Owner = InitiatingCounterparty;
         Counterparty = InitiatingCounterparty;
@@ -89,14 +91,16 @@ contract RefrigeratedTransportation  {
         if ((humidity > MaxHumidity || humidity < MinHumidity)||(humidity == MaxHumidity && humidityDec > 0))
         {
             ComplianceSensorType = SensorType.Humidity;
-            ComplianceSensorReading = append(humidity, humidityDec);
+            ComplianceSensorReading = humidity;
+            ComplianceSensorReadingDec = humidityDec;
             ComplianceDetail = 'Humidity value out of range.';
             ComplianceStatus = false;
         }
         else if ((temperature > MaxTemperature || temperature < MinTemperature)||(temperature == MaxTemperature && temperatureDec > 0))
         {
             ComplianceSensorType = SensorType.Temperature;
-            ComplianceSensorReading = append(temperature, temperatureDec);
+            ComplianceSensorReading = temperature;
+            ComplianceSensorReadingDec = temperatureDec;
             ComplianceDetail = 'Temperature value out of range.';
             ComplianceStatus = false;
         }

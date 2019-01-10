@@ -145,6 +145,14 @@
           }
         },
         {
+          "Name": "ComplianceSensorReadingDec",
+          "DisplayName": "Sensor Reading",
+          "Description": "The IoT sensor value for the out of compliance reading.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
           "Name": "ComplianceStatus",
           "DisplayName": "Status",
           "Description": "Boolean to indicate whether the shipment is in compliance or not.",
