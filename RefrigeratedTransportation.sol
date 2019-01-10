@@ -25,6 +25,10 @@ contract RefrigeratedTransportation  {
     bool public  ComplianceStatus;
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
+    int public SensorLatitude;
+    int public SensorLatitudeDec;
+    int public SensorLongitude;
+    int public SensorLongitudeDec;
 
     constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
@@ -44,6 +48,10 @@ contract RefrigeratedTransportation  {
         State = StateType.Created;
         ComplianceDetail = 'N/A';
         ContractCreated();
+        SensorLatitude = -1;
+        SensorLatitudeDec = -1;
+        SensorLongitude = -1;
+        SensorLongitudeDec = -1;
     }
 
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
@@ -52,11 +60,6 @@ contract RefrigeratedTransportation  {
     string internal ApplicationName;
     string internal WorkflowName;
 
-    function append(string a, string b) internal pure returns (string) {
-
-        return string(abi.encodePacked(a, ".", b));
-
-    }
 
     function ContractCreated() internal {
         emit WorkbenchContractCreated(ApplicationName, WorkflowName, msg.sender);
@@ -66,7 +69,7 @@ contract RefrigeratedTransportation  {
         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 
-    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp, string latitude, string longitude) public
+    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp, int latitude, int latitudeDec, int longitude,  int longitudeDec) public
     {
         // Separately check for states and sender 
         // to avoid not checking for state when the sender is the device
@@ -85,7 +88,10 @@ contract RefrigeratedTransportation  {
         {
             revert();
         }
-
+        SensorLatitude = latitude;
+        SensorLatitudeDec = latitudeDec;
+        SensorLongitude = longitude;
+        SensorLongitudeDec = longitudeDec;
         LastSensorUpdateTimestamp = timestamp;
 
         if ((humidity > MaxHumidity || humidity < MinHumidity)||(humidity == MaxHumidity && humidityDec > 0))

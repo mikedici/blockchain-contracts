@@ -169,6 +169,38 @@
           }
         },
         {
+          "Name": "SensorLatitude",
+          "DisplayName": "Sensor Latitude Reading",
+          "Description": "Latitude",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "SensorLatitudeDec",
+          "DisplayName": "Sensor Latitude Reading",
+          "Description": "Latitude Decimal",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "SensorLongitude",
+          "DisplayName": "Sensor Longitude Reading",
+          "Description": "Longitude",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "SensorLongitudeDec",
+          "DisplayName": "Sensor Longitude Reading",
+          "Description": "Longitude Decimal",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
           "Name": "LastSensorUpdateTimestamp",
           "DisplayName": "Sensor Time",
           "Description": "The time the sensor reading was taken.",
@@ -288,7 +320,15 @@
               "Description": "...",
               "DisplayName": "Latitude",
               "Type": {
-                "Name": "string"
+                "Name": "int"
+              }
+            },
+            {
+              "Name": "latitudeDec",
+              "Description": "...",
+              "DisplayName": "Latitude",
+              "Type": {
+                "Name": "int"
               }
             },
             {
@@ -296,7 +336,15 @@
               "Description": "...",
               "DisplayName": "Longitude",
               "Type": {
-                "Name": "string"
+                "Name": "int"
+              }
+        },
+        {
+              "Name": "longitudeDec",
+              "Description": "...",
+              "DisplayName": "Longitude",
+              "Type": {
+                "Name": "int"
               }
             }
           ]
