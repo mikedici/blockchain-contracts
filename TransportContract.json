@@ -250,6 +250,14 @@
 			  "Type": {
 				"Name": "int"
 			  }
+			},
+			{
+			  "Name": "range",
+			  "Description": "target precision",
+			  "DisplayName": "range",
+			  "Type": {
+				"Name": "int"
+			  }
 			}
 		  ]
 		},

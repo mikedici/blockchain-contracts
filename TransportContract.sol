@@ -28,21 +28,21 @@ contract TransportContract {
     int public PickupMinLongitude;
     LoadStateType public LoadState;
     
-    function SetTarget(int targetLat, int targetLong) internal {
-        TargetMaxLatitude = targetLat + 50;
-        TargetMinLatitude = targetLat - 50;
-        TargetMaxLongitude = targetLong + 50;
-        TargetMinLongitude = targetLong - 50;
+    function SetTarget(int targetLat, int targetLong, int range) internal {
+        TargetMaxLatitude = targetLat + range;
+        TargetMinLatitude = targetLat - range;
+        TargetMaxLongitude = targetLong + range;
+        TargetMinLongitude = targetLong - range;
     }
     
-    function SetPickup (int pickupLat, int pickupLong) internal {
-        PickupMaxLatitude = pickupLat + 50;
-        PickupMinLatitude = pickupLat - 50;
-        PickupMaxLongitude = pickupLong + 50;
-        PickupMinLongitude = pickupLong - 50;
+    function SetPickup (int pickupLat, int pickupLong, int range) internal {
+        PickupMaxLatitude = pickupLat + range;
+        PickupMinLatitude = pickupLat - range;
+        PickupMaxLongitude = pickupLong + range;
+        PickupMinLongitude = pickupLong - range;
     }
     
-    constructor(address device, address supplyChainOwner, address supplyChainObserver, int targetLat, int targetLong, int pickupLat, int pickupLong) public
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int targetLat, int targetLong, int pickupLat, int pickupLong, int range) public
     {
         InitiatingCounterparty = msg.sender;
         Owner = InitiatingCounterparty;
@@ -54,8 +54,8 @@ contract TransportContract {
         ContractCreated();
         SensorLatitude = -1;
         SensorLongitude = -1;
-        SetTarget(targetLat, targetLong);
-        SetPickup(pickupLat, pickupLong);
+        SetTarget(targetLat, targetLong, range);
+        SetPickup(pickupLat, pickupLong, range);
         LoadState = LoadStateType.DeadHead;
     }
     
