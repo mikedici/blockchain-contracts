@@ -103,6 +103,12 @@ contract TransportContract {
         SensorLongitude = longitude;
         LastSensorUpdateTimestamp = timestamp;
         
+         // check if the load is at the pickup location
+        if ((latitude < PickupMaxLatitude && latitude > PickupMinLatitude) && (longitude < PickupMaxLongitude && longitude > PickupMinLongitude)){
+            State = StateType.InTransit;
+            LoadState = LoadStateType.Picked;
+        }
+        
         // check if the load has reached the target
         if(LoadState == LoadStateType.Picked){
             if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
@@ -112,11 +118,7 @@ contract TransportContract {
             
         }
         
-        // check if the load is at the pickup location
-        if ((latitude < PickupMaxLatitude && latitude > PickupMinLatitude) && (longitude < PickupMaxLongitude && longitude > PickupMinLongitude)){
-            State = StateType.InTransit;
-            LoadState = LoadStateType.Picked;
-        }
+       
 
 
         ContractUpdated('IngestTelemetry');
