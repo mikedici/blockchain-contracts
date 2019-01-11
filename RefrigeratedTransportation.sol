@@ -90,15 +90,7 @@ contract RefrigeratedTransportation  {
     {
         // Check if the location is within the target zone, if yes then set the state to complete.
 
-        if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
-            State = StateType.Completed;
-        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
-            State = StateType.Completed;
-        } else if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
-            State = StateType.Completed;
-        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
-            State = StateType.Completed;
-        }
+        
 
         // Separately check for states and sender 
         // to avoid not checking for state when the sender is the device
@@ -122,6 +114,16 @@ contract RefrigeratedTransportation  {
         SensorLongitude = longitude;
         SensorLongitudeDec = longitudeDec;
         LastSensorUpdateTimestamp = timestamp;
+
+        if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
+            State = StateType.Completed;
+        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
+            State = StateType.Completed;
+        } else if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
+            State = StateType.Completed;
+        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
+            State = StateType.Completed;
+        }
 
         if ((humidity > MaxHumidity || humidity < MinHumidity)||(humidity == MaxHumidity && humidityDec > 0))
         {
