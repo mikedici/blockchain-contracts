@@ -175,103 +175,7 @@
           "Type": {
             "Name": "int"
           }
-        },
-        {
-          "Name": "SensorLatitude",
-          "DisplayName": "Sensor Latitude Reading",
-          "Description": "Latitude",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "SensorLatitudeDec",
-          "DisplayName": "Sensor Latitude Reading",
-          "Description": "Latitude Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "SensorLongitude",
-          "DisplayName": "Sensor Longitude Reading",
-          "Description": "Longitude",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "SensorLongitudeDec",
-          "DisplayName": "Sensor Longitude Reading",
-          "Description": "Longitude Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMaxLatitude",
-          "DisplayName": "Maximum Latitude Limit",
-          "Description": "Maximum Latitude Limit",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMaxLatitudeDec",
-          "DisplayName": "Maximum Latitude Limit, Decimal",
-          "Description": "Maximum Latitude Limit, Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMinLatitude",
-          "DisplayName": "Minimum Latitude Limit",
-          "Description": "Minimum Latitude Limit",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMinLatitudeDec",
-          "DisplayName": "Minimum Latitude Limit, Decimal",
-          "Description": "Minimum Latitude Limit, Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMaxLongitude",
-          "DisplayName": "Maximum Longitude Limit",
-          "Description": "Maximum Longitude Limit",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMaxLongitudeDec",
-          "DisplayName": "Minimum Longitude Limit, Decimal",
-          "Description": "Minimum Longitude Limit, Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMinLongitude",
-          "DisplayName": "Minimum Longitude Limit",
-          "Description": "Minimum Longitude Limit",
-          "Type": {
-            "Name": "int"
-          }
-        },
-        {
-          "Name": "TargetMinLongitudeDec",
-          "DisplayName": "Minimum Longitude Limit, Decimal",
-          "Description": "Minimum Longitude Limit, Decimal",
-          "Type": {
-            "Name": "int"
-          }
-        }        
+        }
       ],
       "Constructor": {
         "Parameters": [
@@ -330,70 +234,6 @@
             "Type": {
               "Name": "int"
             }
-          },
-          {
-            "Name": "targetMaxLatitude",
-            "DisplayName": "Maximum Latitude Limit",
-            "Description": "Maximum Latitude Limit",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMaxLatitudeDec",
-            "DisplayName": "Maximum Latitude Limit, Decimal",
-            "Description": "Maximum Latitude Limit, Decimal",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMinLatitude",
-            "DisplayName": "Minimum Latitude Limit",
-            "Description": "Minimum Latitude Limit",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMinLatitudeDec",
-            "DisplayName": "Minimum Latitude Limit, Decimal",
-            "Description": "Minimum Latitude Limit, Decimal",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMaxLongitude",
-            "DisplayName": "Maximum Longitude Limit",
-            "Description": "Maximum Longitude Limit",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMaxLongitudeDec",
-            "DisplayName": "Minimum Longitude Limit, Decimal",
-            "Description": "Minimum Longitude Limit, Decimal",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMinLongitude",
-            "DisplayName": "Minimum Longitude Limit",
-            "Description": "Minimum Longitude Limit",
-            "Type": {
-              "Name": "int"
-            }
-          },
-          {
-            "Name": "targetMinLongitudeDec",
-            "DisplayName": "Minimum Longitude Limit, Decimal",
-            "Description": "Minimum Longitude Limit, Decimal",
-            "Type": {
-              "Name": "int"
-            }
           }
         ]
       },
@@ -439,38 +279,6 @@
               "Name": "timestamp",
               "Description": "...",
               "DisplayName": "Timestamp",
-              "Type": {
-                "Name": "int"
-              }
-            },
-            {
-              "Name": "latitude",
-              "Description": "...",
-              "DisplayName": "Latitude",
-              "Type": {
-                "Name": "int"
-              }
-            },
-            {
-              "Name": "latitudeDec",
-              "Description": "...",
-              "DisplayName": "Latitude",
-              "Type": {
-                "Name": "int"
-              }
-            },
-            {
-              "Name": "longitude",
-              "Description": "...",
-              "DisplayName": "Longitude",
-              "Type": {
-                "Name": "int"
-              }
-        },
-        {
-              "Name": "longitudeDec",
-              "Description": "...",
-              "DisplayName": "Longitude",
               "Type": {
                 "Name": "int"
               }

@@ -25,29 +25,27 @@ contract RefrigeratedTransportation  {
     bool public  ComplianceStatus;
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
-    int public SensorLatitude;
-    int public SensorLatitudeDec;
-    int public SensorLongitude;
-    int public SensorLongitudeDec;
-    int public TargetMaxLatitude;
-    int public TargetMaxLatitudeDec;
-    int public TargetMinLatitude;
-    int public TargetMinLatitudeDec;
-    int public TargetMaxLongitude;
-    int public TargetMaxLongitudeDec;
-    int public TargetMinLongitude;
-    int public TargetMinLongitudeDec;
-    
 
-    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int targetMaxLatitude, int targetMaxLatitudeDec, int  targetMinLatitude, int  targetMinLatitudeDec, int  targetMaxLongitude, int targetMaxLongitudeDec, int targetMinLongitude, int targetMinLongitudeDec) public
+
+    modifier incompatableState(StateType stateType) {
+        require(State != stateType);
+        _;
+    }
+    
+    modifier deviceAction() {
+        require(Device == msg.sender);
+        _;
+    }
+    
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
         ComplianceSensorReadingDec = -1;
         InitiatingCounterparty = msg.sender;
+        Device = device;
         Owner = InitiatingCounterparty;
         Counterparty = InitiatingCounterparty;
-        Device = device;
         SupplyChainOwner = supplyChainOwner;
         SupplyChainObserver = supplyChainObserver;
         MinHumidity = minHumidity;
@@ -57,19 +55,8 @@ contract RefrigeratedTransportation  {
         State = StateType.Created;
         ComplianceDetail = 'N/A';
         ContractCreated();
-        SensorLatitude = -1;
-        SensorLatitudeDec = -1;
-        SensorLongitude = -1;
-        SensorLongitudeDec = -1;
-        TargetMaxLatitude = targetMaxLatitude;
-        TargetMaxLatitudeDec = targetMaxLatitudeDec;
-        TargetMinLatitude = targetMinLatitude;
-        TargetMinLatitudeDec = targetMinLatitudeDec;
-        TargetMaxLongitude = targetMaxLongitude;
-        TargetMaxLongitudeDec = targetMaxLongitudeDec;
-        TargetMinLongitude = targetMinLongitude;
-        TargetMinLongitudeDec = targetMinLongitudeDec;
     }
+    
 
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
@@ -86,44 +73,12 @@ contract RefrigeratedTransportation  {
         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 
-    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp, int latitude, int latitudeDec, int longitude,  int longitudeDec) public
+
+    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp) public
+        incompatableState(StateType.Completed)
+        incompatableState(StateType.OutOfCompliance)
+        deviceAction()
     {
-        // Check if the location is within the target zone, if yes then set the state to complete.
-
-        
-
-        // Separately check for states and sender 
-        // to avoid not checking for state when the sender is the device
-        // because of the logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if (Device != msg.sender)
-        {
-            revert();
-        }
-        SensorLatitude = latitude;
-        SensorLatitudeDec = latitudeDec;
-        SensorLongitude = longitude;
-        SensorLongitudeDec = longitudeDec;
-        LastSensorUpdateTimestamp = timestamp;
-
-        if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
-            State = StateType.Completed;
-        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
-            State = StateType.Completed;
-        } else if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
-            State = StateType.Completed;
-        } else if ((latitude == TargetMaxLatitude && latitudeDec <= TargetMaxLatitudeDec) && (longitude == TargetMaxLongitude && longitudeDec <= TargetMaxLongitudeDec)){
-            State = StateType.Completed;
-        }
 
         if ((humidity > MaxHumidity || humidity < MinHumidity)||(humidity == MaxHumidity && humidityDec > 0))
         {
@@ -151,18 +106,9 @@ contract RefrigeratedTransportation  {
     }
 
     function TransferResponsibility(address newCounterparty) public
+        incompatableState(StateType.Completed)
+        incompatableState(StateType.OutOfCompliance)
     {
-        // keep the state checking, message sender, and device checks separate
-        // to not get cloberred by the order of evaluation for logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
 
         if ( InitiatingCounterparty != msg.sender && Counterparty != msg.sender )
         {
