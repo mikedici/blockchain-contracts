@@ -104,9 +104,12 @@ contract TransportContract {
         LastSensorUpdateTimestamp = timestamp;
         
         // check if the load has reached the target
-        if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
-            State = StateType.Completed;
-            LoadState = LoadStateType.Dropped;
+        if(LoadState == LoadStateType.Picked){
+            if ((latitude < TargetMaxLatitude && latitude > TargetMinLatitude) && (longitude < TargetMaxLongitude && longitude > TargetMinLongitude)){
+                State = StateType.Completed;
+                LoadState = LoadStateType.Dropped;
+            }
+            
         }
         
         // check if the load is at the pickup location
