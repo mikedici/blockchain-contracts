@@ -29,17 +29,17 @@ contract TransportContract {
     LoadStateType public LoadState;
     
     function SetTarget(int targetLat, int targetLong) internal {
-        TargetMaxLatitude = targetLat + 500;
-        TargetMinLatitude = targetLat - 500;
-        TargetMaxLongitude = targetLong + 500;
-        TargetMinLongitude = targetLong - 500;
+        TargetMaxLatitude = targetLat + 50;
+        TargetMinLatitude = targetLat - 50;
+        TargetMaxLongitude = targetLong + 50;
+        TargetMinLongitude = targetLong - 50;
     }
     
     function SetPickup (int pickupLat, int pickupLong) internal {
-        PickupMaxLatitude = pickupLat + 500;
-        PickupMinLatitude = pickupLat - 500;
-        PickupMaxLongitude = pickupLong + 500;
-        PickupMinLongitude = pickupLong - 500;
+        PickupMaxLatitude = pickupLat + 50;
+        PickupMinLatitude = pickupLat - 50;
+        PickupMaxLongitude = pickupLong + 50;
+        PickupMinLongitude = pickupLong - 50;
     }
     
     constructor(address device, address supplyChainOwner, address supplyChainObserver, int targetLat, int targetLong, int pickupLat, int pickupLong) public
