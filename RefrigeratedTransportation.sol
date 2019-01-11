@@ -29,8 +29,17 @@ contract RefrigeratedTransportation  {
     int public SensorLatitudeDec;
     int public SensorLongitude;
     int public SensorLongitudeDec;
+    int public TargetMaxLatitude;
+    int public TargetMaxLatitudeDec;
+    int public TargetMinLatitude;
+    int public TargetMinLatitudeDec;
+    int public TargetMaxLongitude;
+    int public TargetMaxLongitudeDec;
+    int public TargetMinLongitude;
+    int public TargetMinLongitudeDec;
+    
 
-    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
+    constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature, int targetMaxLatitude, int targetMaxLatitudeDec, int  targetMinLatitude, int  targetMinLatitudeDec, int  targetMaxLongitude, int targetMaxLongitudeDec, int targetMinLongitude, int targetMinLongitudeDec) public
     {
         ComplianceStatus = true;
         ComplianceSensorReading = -1;
@@ -52,6 +61,14 @@ contract RefrigeratedTransportation  {
         SensorLatitudeDec = -1;
         SensorLongitude = -1;
         SensorLongitudeDec = -1;
+        TargetMaxLatitude = targetMaxLatitude;
+        TargetMaxLatitudeDec = targetMaxLatitudeDec;
+        TargetMinLatitude = targetMinLatitude;
+        TargetMinLatitudeDec = targetMinLatitudeDec;
+        TargetMaxLongitude = targetMaxLongitude;
+        TargetMaxLongitudeDec = targetMaxLongitudeDec;
+        TargetMinLongitude = targetMinLongitude;
+        TargetMinLongitudeDec = targetMinLongitudeDec;
     }
 
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
