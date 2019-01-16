@@ -76,29 +76,8 @@ contract TransportContract {
         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 
-    function IngestTelemetry( int timestamp, int latitude, int longitude) public
+    function IngestTelemetry( int timestamp, int latitude, int longitude) public ingestChecks
     {
-        // Check if the location is within the target zone, if yes then set the state to complete.
-
-        
-
-        // Separately check for states and sender 
-        // to avoid not checking for state when the sender is the device
-        // because of the logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if (Device != msg.sender)
-        {
-            revert();
-        }
         SensorLatitude = latitude;
         SensorLongitude = longitude;
         LastSensorUpdateTimestamp = timestamp;
@@ -117,36 +96,20 @@ contract TransportContract {
             }
             
         }
-        
-       
-
 
         ContractUpdated('IngestTelemetry');
     }
+      modifier ingestChecks() {
+        require(State == StateType.Created || State == StateType.InTransit);
+        require(Device == msg.sender);
+        _;
+      }
 
     function TransferResponsibility(address newCounterparty) public
     {
-        // keep the state checking, message sender, and device checks separate
-        // to not get cloberred by the order of evaluation for logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if ( InitiatingCounterparty != msg.sender && Counterparty != msg.sender )
-        {
-            revert();
-        }
-
-        if ( newCounterparty == Device )
-        {
-            revert();
-        }
+        require(State == StateType.Created || State == StateType.InTransit);
+        require(InitiatingCounterparty == msg.sender || Counterparty == msg.sender);
+        require(newCounterparty != Device);
 
         if (State == StateType.Created)
         {
