@@ -59,8 +59,6 @@ contract TransportContract {
         LoadState = LoadStateType.DeadHead;
     }
     
-    
-    
     event WorkbenchContractCreated(string applicationName, string workflowName, address originatingAddress);
     event WorkbenchContractUpdated(string applicationName, string workflowName, string action, address originatingAddress);
 
@@ -76,29 +74,10 @@ contract TransportContract {
         emit WorkbenchContractUpdated(ApplicationName, WorkflowName, action, msg.sender);
     }
 
-    function IngestTelemetry( int timestamp, int latitude, int longitude) public
+    function IngestTelemetry( int timestamp, int latitude, int longitude) public validState
     {
-        // Check if the location is within the target zone, if yes then set the state to complete.
+        require(Device == msg.sender);
 
-        
-
-        // Separately check for states and sender 
-        // to avoid not checking for state when the sender is the device
-        // because of the logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if (Device != msg.sender)
-        {
-            revert();
-        }
         SensorLatitude = latitude;
         SensorLongitude = longitude;
         LastSensorUpdateTimestamp = timestamp;
@@ -117,36 +96,14 @@ contract TransportContract {
             }
             
         }
-        
-       
-
 
         ContractUpdated('IngestTelemetry');
     }
 
-    function TransferResponsibility(address newCounterparty) public
+    function TransferResponsibility(address newCounterparty) public validState
     {
-        // keep the state checking, message sender, and device checks separate
-        // to not get cloberred by the order of evaluation for logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if ( InitiatingCounterparty != msg.sender && Counterparty != msg.sender )
-        {
-            revert();
-        }
-
-        if ( newCounterparty == Device )
-        {
-            revert();
-        }
+        require(InitiatingCounterparty == msg.sender || Counterparty == msg.sender);
+        require(newCounterparty != Device);
 
         if (State == StateType.Created)
         {
@@ -158,28 +115,18 @@ contract TransportContract {
         ContractUpdated('TransferResponsibility');
     }
 
-    function Complete() public
+    function Complete() public validState
     {
-        // keep the state checking, message sender, and device checks separate
-        // to not get cloberred by the order of evaluation for logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if (Owner != msg.sender && SupplyChainOwner != msg.sender)
-        {
-            revert();
-        }
+        require(Owner == msg.sender || SupplyChainOwner == msg.sender);
 
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
         ContractUpdated('Complete');
     }
+
+      modifier validState() {
+        require(State == StateType.Created || State == StateType.InTransit);
+        _;
+      }
 }

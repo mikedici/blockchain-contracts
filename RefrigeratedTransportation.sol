@@ -25,17 +25,6 @@ contract RefrigeratedTransportation  {
     bool public  ComplianceStatus;
     string public  ComplianceDetail;
     int public  LastSensorUpdateTimestamp;
-
-
-    modifier incompatableState(StateType stateType) {
-        require(State != stateType);
-        _;
-    }
-    
-    modifier deviceAction() {
-        require(Device == msg.sender);
-        _;
-    }
     
     constructor(address device, address supplyChainOwner, address supplyChainObserver, int minHumidity, int maxHumidity, int minTemperature, int maxTemperature) public
     {
@@ -74,11 +63,9 @@ contract RefrigeratedTransportation  {
     }
 
 
-    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp) public
-        incompatableState(StateType.Completed)
-        incompatableState(StateType.OutOfCompliance)
-        deviceAction()
+    function IngestTelemetry(int humidity, int humidityDec, int temperature, int temperatureDec, int timestamp) public validState
     {
+        require(Device == msg.sender);
 
         if ((humidity > MaxHumidity || humidity < MinHumidity)||(humidity == MaxHumidity && humidityDec > 0))
         {
@@ -105,20 +92,10 @@ contract RefrigeratedTransportation  {
         ContractUpdated('IngestTelemetry');
     }
 
-    function TransferResponsibility(address newCounterparty) public
-        incompatableState(StateType.Completed)
-        incompatableState(StateType.OutOfCompliance)
+    function TransferResponsibility(address newCounterparty) public validState
     {
-
-        if ( InitiatingCounterparty != msg.sender && Counterparty != msg.sender )
-        {
-            revert();
-        }
-
-        if ( newCounterparty == Device )
-        {
-            revert();
-        }
+        require(InitiatingCounterparty == msg.sender || Counterparty == msg.sender);
+        require(newCounterparty != Device);
 
         if (State == StateType.Created)
         {
@@ -130,28 +107,17 @@ contract RefrigeratedTransportation  {
         ContractUpdated('TransferResponsibility');
     }
 
-    function Complete() public
+    function Complete() public validState
     {
-        // keep the state checking, message sender, and device checks separate
-        // to not get cloberred by the order of evaluation for logical OR
-        if ( State == StateType.Completed )
-        {
-            revert();
-        }
-
-        if ( State == StateType.OutOfCompliance )
-        {
-            revert();
-        }
-
-        if (Owner != msg.sender && SupplyChainOwner != msg.sender)
-        {
-            revert();
-        }
+        require(Owner == msg.sender || SupplyChainOwner == msg.sender);
 
         State = StateType.Completed;
         PreviousCounterparty = Counterparty;
         Counterparty = 0x0;
         ContractUpdated('Complete');
+    }
+    modifier validState() {
+      require(State == StateType.Created || State == StateType.InTransit);
+      _;
     }
 }
